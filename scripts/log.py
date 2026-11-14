@@ -33,7 +33,8 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parent.parent
 LOG = ROOT / "data" / "log.json"
 CONFIG = ROOT / "config.json"
-UPLOADS = Path(os.environ.get("GYMLOG_UPLOADS", "/mnt/user-data/uploads"))
+# Photos sent from the Claude app land in /root/.claude/uploads/<session-id>/.
+UPLOAD_DIRS = [Path(d) for d in os.environ.get("GYMLOG_UPLOADS", "/root/.claude/uploads:/mnt/user-data/uploads").split(":")]
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".heic", ".heif", ".webp", ".avif", ".gif", ".tif", ".tiff"}
 MAX_SIDE = 1280
 QUALITY = 78
@@ -104,9 +105,8 @@ def local_day(entry):
 
 
 def upload_files():
-    if not UPLOADS.is_dir():
-        return []
-    files = [p for p in UPLOADS.rglob("*") if p.is_file() and p.suffix.lower() in IMAGE_EXTS]
+    files = [p for d in UPLOAD_DIRS if d.is_dir() for p in d.rglob("*")
+             if p.is_file() and p.suffix.lower() in IMAGE_EXTS]
     return sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)
 
 
@@ -114,7 +114,7 @@ def resolve_photo(arg):
     if arg == "latest":
         files = upload_files()
         if not files:
-            die(f"no images found in {UPLOADS}; pass the photo path explicitly")
+            die(f"no images found in {", ".join(map(str, UPLOAD_DIRS))}; pass the photo path explicitly")
         return files[0]
     p = Path(arg).expanduser()
     if not p.is_file():
@@ -355,7 +355,7 @@ def cmd_recent(a):
 def cmd_uploads(a):
     files = upload_files()
     if not files:
-        print(f"no images in {UPLOADS}")
+        print(f"no images in {", ".join(map(str, UPLOAD_DIRS))}")
         return
     hashes = {e.get("src_hash"): e["id"] for e in load_log() if e.get("src_hash")}
     for p in files[: a.n]:

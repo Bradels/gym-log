@@ -1,2 +1,4 @@
 [
+{"id": "20261113-190000-food", "time": "2026-11-13T19:00:00+11:00", "type": "food", "meal": "dinner", "description": "40 Chicken McNuggets", "kcal": 1720, "protein_g": 100, "carbs_g": 100, "fat_g": 104, "photo": null, "confidence": "medium", "notes": "40 nuggets (4 x 10-pack), based on McDonald's published values ~430 kcal per 10. Sauces not included. Time approximate ('last night')."},
+{"id": "20261113-190100-food", "time": "2026-11-13T19:01:00+11:00", "type": "food", "meal": "dinner", "description": "Cappuccino (McCafé)", "kcal": 130, "protein_g": 7, "carbs_g": 10, "fat_g": 7, "photo": null, "confidence": "low", "notes": "Size not known, assumed a regular cappuccino with full-cream milk."}
 ]

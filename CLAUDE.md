@@ -26,10 +26,13 @@ Do this once, quietly, before or alongside the first photo:
 
 ## For every message
 
-1. **Find the photo(s).** Run `python3 scripts/log.py uploads`. It lists uploaded images,
-   newest first, and marks any already logged. `--photo latest` means the newest. If a message
-   has several photos, pass each path explicitly. If the upload can't be found as a file, log
+1. **Find the photo(s).** Each attached image is saved under `/root/.claude/uploads/<session-id>/`,
+   and the message context gives its exact path ("also saved at ..."). Pass that path to
+   `--photo`. If several photos come in one message, handle each by its own path. As a fallback,
+   `python3 scripts/log.py uploads` lists uploaded images newest first and marks any already
+   logged, and `--photo latest` means the newest. If the upload can't be found as a file, log
    the data anyway with no photo and say "photo not saved" in your reply.
+   If the user says not to post a photo, leave out `--photo`.
 2. **Work out what it is**, then log it with `scripts/log.py add <type>` (see below).
 3. **Run the privacy check** (below) before attaching the photo.
 4. **Commit and push straight away** in the same command, because the container is
