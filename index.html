@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gym Log</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f4f2;
+  --surface: #fcfcfb;
+  --surface-2: #f0efec;
+  --border: #e2e1dc;
+  --grid: #e6e5e1;
+  --text: #0b0b0b;
+  --text-2: #52514e;
+  --text-3: #6f6e69;
+  --accent: #2a78d6;
+  --flag-bg: #fff2cf;
+  --flag-text: #6b4a00;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #121211;
+    --surface: #1a1a19;
+    --surface-2: #252523;
+    --border: #2f2f2c;
+    --grid: #2e2e2b;
+    --text: #f0efec;
+    --text-2: #c3c2b7;
+    --text-3: #a09f95;
+    --accent: #3987e5;
+    --flag-bg: #3b2f12;
+    --flag-text: #f2cd78;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 56px; }
+h1 { font-size: 1.65rem; line-height: 1.2; margin: 0 0 4px; letter-spacing: -0.01em; }
+h2 { font-size: 1.05rem; margin: 0; }
+h3 { font-size: 1rem; margin: 0; }
+h4 { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-2); margin: 16px 0 6px; font-weight: 600; }
+.sub { color: var(--text-2); font-size: .9rem; margin: 0; }
+.muted { color: var(--text-3); }
+.num { font-variant-numeric: tabular-nums; }
+
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 20px 0 14px; }
+@media (min-width: 640px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; min-width: 0; }
+.tile .label { color: var(--text-2); font-size: .8rem; }
+.tile .value { font-size: 1.45rem; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.tile .value small { font-size: .85rem; font-weight: 500; color: var(--text-2); }
+.tile .delta { color: var(--text-2); font-size: .78rem; margin-top: 2px; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 0 0 14px; }
+.card-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 9px; padding: 3px; gap: 2px; }
+.seg button {
+  font: inherit; font-size: .82rem; border: 0; background: transparent; color: var(--text-2);
+  padding: 5px 11px; border-radius: 7px; cursor: pointer; min-height: 30px;
+}
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: 0 0 0 1px var(--border); }
+
+.chart { position: relative; margin-top: 12px; touch-action: pan-y; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart .axis text { fill: var(--text-3); font-size: 11px; font-variant-numeric: tabular-nums; }
+.chart .gridline { stroke: var(--grid); stroke-width: 1; }
+.chart .line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+.chart .cross { stroke: var(--text-3); stroke-width: 1; }
+.tip {
+  position: absolute; top: 0; pointer-events: none; background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; padding: 6px 9px; font-size: .8rem;
+  box-shadow: 0 4px 14px rgb(0 0 0 / .12); white-space: nowrap; transform: translateX(-50%);
+}
+.tip b { font-variant-numeric: tabular-nums; }
+.empty { color: var(--text-2); font-size: .9rem; margin: 12px 0 4px; }
+details { margin-top: 10px; font-size: .9rem; }
+summary { cursor: pointer; color: var(--text-2); }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+td, th { text-align: left; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--text-2); font-weight: 600; font-size: .78rem; }
+td.r, th.r { text-align: right; padding-right: 0; }
+
+.tabs { margin: 22px 0 12px; }
+
+.day-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.chips { color: var(--text-2); font-size: .85rem; margin: 4px 0 0; }
+.ex { padding: 8px 0; border-top: 1px solid var(--border); }
+.ex:first-of-type { border-top: 0; }
+.ex-name { font-weight: 600; }
+.rows { list-style: none; margin: 4px 0 0; padding: 0; }
+.row { display: flex; align-items: center; gap: 10px; padding: 4px 0; min-height: 40px; }
+.row .main { flex: 1; min-width: 0; }
+.row .what { font-variant-numeric: tabular-nums; }
+.row .note { color: var(--text-3); font-size: .8rem; overflow-wrap: anywhere; }
+.row time { color: var(--text-3); font-size: .78rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.idx { color: var(--text-3); font-size: .8rem; width: 1.2em; text-align: right; font-variant-numeric: tabular-nums; flex: none; }
+.kcal { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-2); font-size: .9rem; }
+.flag { display: inline-block; background: var(--flag-bg); color: var(--flag-text); font-size: .7rem; font-weight: 600; border-radius: 5px; padding: 0 5px; margin-left: 6px; vertical-align: 1px; }
+.thumb { flex: none; width: 44px; height: 44px; padding: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface-2); cursor: zoom-in; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.total { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--border); padding-top: 6px; margin-top: 2px; font-size: .9rem; font-weight: 600; }
+.total .macros { color: var(--text-2); font-weight: 400; }
+
+.nw { white-space: nowrap; }
+.card.compact { padding: 8px 16px; }
+.card.compact .what { font-weight: 600; }
+.hist td:first-child { white-space: nowrap; color: var(--text-2); width: 1%; padding-right: 14px; }
+
+dialog { border: 0; padding: 0; background: transparent; max-width: min(96vw, 900px); }
+dialog::backdrop { background: rgb(0 0 0 / .8); }
+dialog img { display: block; max-width: 100%; max-height: 82vh; border-radius: 10px; margin: 0 auto; }
+dialog p { color: #f0efec; text-align: center; font-size: .9rem; margin: 10px 0 0; }
+.close { position: fixed; top: 12px; right: 12px; font: inherit; font-size: .9rem; background: #252523; color: #f0efec; border: 0; border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+footer { color: var(--text-3); font-size: .8rem; margin-top: 28px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">Gym Log</h1>
+    <p class="sub" id="updated">Loading…</p>
+  </header>
+
+  <section class="tiles" id="tiles" aria-label="Summary"></section>
+
+  <section class="card" id="weight-card" hidden>
+    <div class="card-head">
+      <h2>Body weight</h2>
+      <div class="seg" role="group" aria-label="Time range" id="range">
+        <button data-range="30" aria-pressed="false">30d</button>
+        <button data-range="90" aria-pressed="false">90d</button>
+        <button data-range="365" aria-pressed="false">1y</button>
+        <button data-range="all" aria-pressed="true">All</button>
+      </div>
+    </div>
+    <div class="chart" id="weight-chart"></div>
+    <details>
+      <summary>Show as table</summary>
+      <table id="weight-table"></table>
+    </details>
+  </section>
+
+  <div class="tabs">
+    <div class="seg" role="group" aria-label="View" id="view-toggle">
+      <button data-view="days" aria-pressed="true">By day</button>
+      <button data-view="exercises" aria-pressed="false">By exercise</button>
+    </div>
+  </div>
+
+  <main id="view"></main>
+
+  <footer>
+    Logged from gym photos by Claude. Weights read off machines and food calories are best guesses.
+    <span class="flag">unsure</span> marks a low-confidence read; <b>~</b> before reps means they were assumed from the routine.
+  </footer>
+</div>
+
+<dialog id="lightbox" aria-label="Photo">
+  <button class="close" id="lightbox-close">Close</button>
+  <img alt="">
+  <p></p>
+</dialog>
+
+<script>
+const state = { config: {}, entries: [], range: 'all', view: 'days' };
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const tz = () => state.config.timezone || undefined;
+const loc = () => state.config.locale || 'en-AU';
+const unit = () => state.config.unit || 'kg';
+const num = (v, d = 1) => v == null ? '?' : new Intl.NumberFormat(loc(), { maximumFractionDigits: d }).format(v);
+const bw1 = v => v == null ? '?' : new Intl.NumberFormat(loc(), { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(v);
+const DAY = 864e5;
+
+function dayKey(iso) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: tz(), year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(iso));
+}
+function keyNum(k) { const [y, m, d] = k.split('-').map(Number); return Date.UTC(y, m - 1, d) / DAY; }
+function fmtDay(k, opts = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) {
+  const [y, m, d] = k.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d, 12)).toLocaleDateString(loc(), { ...opts, timeZone: 'UTC' });
+}
+function fmtTime(iso) { return new Date(iso).toLocaleTimeString(loc(), { timeZone: tz(), hour: 'numeric', minute: '2-digit' }); }
+function fmtDate(t, opts = { day: 'numeric', month: 'short' }) { return new Date(t).toLocaleDateString(loc(), { ...opts, timeZone: tz() }); }
+function toUnit(v, from) {
+  if (v == null || !from || from === unit()) return v;
+  if (from === 'lb' && unit() === 'kg') return v * 0.45359237;
+  if (from === 'kg' && unit() === 'lb') return v / 0.45359237;
+  return v;
+}
+
+async function load() {
+  try {
+    const [cfg, log] = await Promise.all([
+      fetch('config.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch('data/log.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }),
+    ]);
+    state.config = cfg;
+    state.entries = log.filter(e => e && e.time && e.type).sort((a, b) => new Date(a.time) - new Date(b.time));
+  } catch (err) {
+    $('#updated').textContent = 'Could not load the log (' + err.message + ').';
+    return;
+  }
+  if (state.config.title) { $('#title').textContent = state.config.title; document.title = state.config.title; }
+  render();
+}
+
+function render() {
+  const last = state.entries[state.entries.length - 1];
+  $('#updated').textContent = last
+    ? `Last entry ${fmtDay(dayKey(last.time), { weekday: 'short', day: 'numeric', month: 'short' })}, ${fmtTime(last.time)}`
+    : 'No entries yet.';
+  renderTiles();
+  renderWeight();
+  renderView();
+}
+
+/* ---------- summary tiles ---------- */
+function weighIns() {
+  return state.entries.filter(e => e.type === 'bodyweight' && typeof e.weight === 'number')
+    .map(e => ({ t: new Date(e.time).getTime(), v: toUnit(e.weight, e.unit), e }));
+}
+function renderTiles() {
+  const today = keyNum(dayKey(new Date().toISOString()));
+  const recent = state.entries.filter(e => today - keyNum(dayKey(e.time)) < 7);
+  const pts = weighIns();
+  const tiles = [];
+
+  if (pts.length) {
+    const lastP = pts[pts.length - 1];
+    let delta = `on ${fmtDate(lastP.t)}`;
+    const target = lastP.t - 30 * DAY;
+    const earlier = pts.filter(p => p.t <= lastP.t - 6 * DAY);
+    if (earlier.length) {
+      const ref = earlier.reduce((a, b) => Math.abs(b.t - target) < Math.abs(a.t - target) ? b : a);
+      const d = lastP.v - ref.v;
+      delta = `${d > 0 ? '+' : d < 0 ? '−' : '±'}${num(Math.abs(d))} ${unit()} since ${fmtDate(ref.t)}`;
+    }
+    tiles.push(['Body weight', `${bw1(lastP.v)} <small>${esc(unit())}</small>`, delta]);
+  } else {
+    tiles.push(['Body weight', '—', 'no weigh-ins yet']);
+  }
+
+  const gymDays = new Set(recent.filter(e => e.type === 'set' || e.type === 'cardio').map(e => dayKey(e.time)));
+  tiles.push(['Gym days', `${gymDays.size}`, 'last 7 days']);
+  tiles.push(['Sets', `${recent.filter(e => e.type === 'set').length}`, 'last 7 days']);
+
+  const foodDays = new Map();
+  recent.filter(e => e.type === 'food' && typeof e.kcal === 'number')
+    .forEach(e => foodDays.set(dayKey(e.time), (foodDays.get(dayKey(e.time)) || 0) + e.kcal));
+  if (foodDays.size) {
+    const avg = [...foodDays.values()].reduce((a, b) => a + b, 0) / foodDays.size;
+    tiles.push(['Calories per day', `≈${num(Math.round(avg / 10) * 10, 0)}`, `avg, ${foodDays.size} logged day${foodDays.size > 1 ? 's' : ''}`]);
+  } else {
+    tiles.push(['Calories per day', '—', 'no food logged, last 7 days']);
+  }
+
+  $('#tiles').innerHTML = tiles.map(([l, v, d]) =>
+    `<div class="tile"><div class="label">${esc(l)}</div><div class="value">${v}</div><div class="delta">${esc(d)}</div></div>`).join('');
+}
+
+/* ---------- body weight chart ---------- */
+function niceStep(span, count) {
+  const raw = span / count, mag = 10 ** Math.floor(Math.log10(raw)), n = raw / mag;
+  return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * mag;
+}
+function renderWeight() {
+  const all = weighIns();
+  const card = $('#weight-card');
+  card.hidden = all.length === 0;
+  if (!all.length) return;
+
+  $('#weight-table').innerHTML = '<thead><tr><th>Date</th><th>Time</th><th class="r">Weight</th></tr></thead><tbody>' +
+    all.slice().reverse().map(p => `<tr><td>${esc(fmtDay(dayKey(p.e.time)))}</td><td>${esc(fmtTime(p.e.time))}</td><td class="r num">${bw1(p.v)} ${esc(unit())}</td></tr>`).join('') + '</tbody>';
+
+  const box = $('#weight-chart');
+  const days = state.range === 'all' ? null : Number(state.range);
+  const pts = days ? all.filter(p => p.t >= Date.now() - days * DAY) : all;
+  if (pts.length < 2) {
+    box.innerHTML = `<p class="empty">${pts.length ? `One weigh-in in this range: <b class="num">${bw1(pts[0].v)} ${esc(unit())}</b> on ${esc(fmtDate(pts[0].t))}. The chart appears from the second weigh-in.` : 'No weigh-ins in this range.'}</p>`;
+    return;
+  }
+
+  const W = Math.max(280, box.clientWidth), H = 210, m = { l: 40, r: 10, t: 10, b: 26 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const vs = pts.map(p => p.v);
+  let lo = Math.min(...vs), hi = Math.max(...vs);
+  const pad = Math.max((hi - lo) * 0.15, 0.5); lo -= pad; hi += pad;
+  const step = niceStep(hi - lo, 4);
+  lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+  const t0 = pts[0].t, t1 = pts[pts.length - 1].t;
+  const x = t => m.l + (t1 === t0 ? iw / 2 : (t - t0) / (t1 - t0) * iw);
+  const y = v => m.t + (hi - v) / (hi - lo) * ih;
+  const dec = step < 1 ? 1 : 0;
+
+  let g = '';
+  for (let v = lo; v <= hi + step / 2; v += step) {
+    g += `<line class="gridline" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>`;
+    g += `<text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${num(v, dec)}</text>`;
+  }
+  const nx = W < 420 ? 3 : 4;
+  for (let i = 0; i < nx; i++) {
+    const t = t0 + (t1 - t0) * i / (nx - 1);
+    const anchor = i === 0 ? 'start' : i === nx - 1 ? 'end' : 'middle';
+    g += `<text x="${x(t)}" y="${H - 6}" text-anchor="${anchor}">${esc(fmtDate(t))}</text>`;
+  }
+  const d = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(p.v).toFixed(1)}`).join('');
+  const dots = pts.length <= 45 ? pts.map(p => `<circle class="dot" r="4" cx="${x(p.t)}" cy="${y(p.v)}"/>`).join('') : '';
+
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Body weight over time, ${pts.length} weigh-ins">
+    <g class="axis">${g}</g>
+    <path class="line" d="${d}"/>${dots}
+    <line class="cross" y1="${m.t}" y2="${m.t + ih}" visibility="hidden"/>
+    <circle class="dot focus" r="5" visibility="hidden"/>
+    <rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent"/>
+  </svg><div class="tip" hidden></div>`;
+
+  const svg = $('svg', box), cross = $('.cross', svg), focus = $('.focus', svg), tip = $('.tip', box);
+  const show = ev => {
+    const r = svg.getBoundingClientRect();
+    const px = (ev.clientX - r.left) * (W / r.width);
+    const p = pts.reduce((a, b) => Math.abs(x(b.t) - px) < Math.abs(x(a.t) - px) ? b : a);
+    const cx = x(p.t), cy = y(p.v);
+    cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.setAttribute('visibility', 'visible');
+    focus.setAttribute('cx', cx); focus.setAttribute('cy', cy); focus.setAttribute('visibility', 'visible');
+    tip.innerHTML = `${esc(fmtDay(dayKey(p.e.time)))}<br><b>${bw1(p.v)} ${esc(unit())}</b>`;
+    tip.hidden = false;
+    const sx = cx * (r.width / W), half = tip.offsetWidth / 2;
+    tip.style.left = Math.min(Math.max(sx, half), r.width - half) + 'px';
+    tip.style.top = Math.max(0, cy * (r.height / H) - tip.offsetHeight - 12) + 'px';
+  };
+  const hide = () => { cross.setAttribute('visibility', 'hidden'); focus.setAttribute('visibility', 'hidden'); tip.hidden = true; };
+  svg.addEventListener('pointermove', show);
+  svg.addEventListener('pointerdown', show);
+  svg.addEventListener('pointerleave', ev => { if (ev.pointerType === 'mouse') hide(); });
+}
+
+/* ---------- day + exercise views ---------- */
+function setText(e) {
+  const w = e.weight == null ? 'Bodyweight' : `${num(toUnit(e.weight, e.unit))} ${esc(unit())}`;
+  const reps = e.reps == null ? '' : ` × ${e.reps_assumed ? '~' : ''}${num(e.reps, 0)}`;
+  return w + reps;
+}
+function flag(e) { return e.confidence === 'low' ? '<span class="flag">unsure</span>' : ''; }
+function note(e) { return e.notes ? `<div class="note">${esc(e.notes)}</div>` : ''; }
+function thumb(e, caption) {
+  if (!e.photo) return '';
+  return `<button class="thumb" data-src="${esc(e.photo)}" data-cap="${esc(caption)}" aria-label="View photo"><img src="${esc(e.photo)}" alt="" loading="lazy"></button>`;
+}
+function exerciseKey(name) { return String(name || '').trim().toLowerCase(); }
+
+function renderView() {
+  const view = $('#view');
+  if (!state.entries.length) {
+    view.innerHTML = '<div class="card"><p class="empty">Nothing logged yet. Entries show up here a minute or so after each photo.</p></div>';
+    return;
+  }
+  view.innerHTML = state.view === 'days' ? renderDays() : renderExercises();
+}
+
+function renderDays() {
+  const byDay = new Map();
+  for (const e of state.entries) {
+    const k = dayKey(e.time);
+    if (!byDay.has(k)) byDay.set(k, []);
+    byDay.get(k).push(e);
+  }
+  return [...byDay.entries()].reverse().map(([k, es]) => {
+    const sets = es.filter(e => e.type === 'set');
+    const cardio = es.filter(e => e.type === 'cardio');
+    const food = es.filter(e => e.type === 'food');
+    const bw = es.filter(e => e.type === 'bodyweight');
+    const notes = es.filter(e => e.type === 'note');
+
+    const groups = new Map();
+    for (const s of sets) {
+      const key = exerciseKey(s.exercise);
+      if (!groups.has(key)) groups.set(key, { name: s.exercise, sets: [] });
+      groups.get(key).sets.push(s);
+    }
+    const kcal = food.reduce((a, f) => a + (typeof f.kcal === 'number' ? f.kcal : 0), 0);
+    const chips = [];
+    if (sets.length) chips.push(`${sets.length} set${sets.length > 1 ? 's' : ''} · ${groups.size} exercise${groups.size > 1 ? 's' : ''}`);
+    const mins = cardio.reduce((a, c) => a + (c.minutes || 0), 0);
+    if (cardio.length) chips.push(mins ? `${num(mins, 0)} min cardio` : 'cardio');
+    if (food.length) chips.push(kcal ? `≈${num(kcal, 0)} kcal` : `${food.length} food log${food.length > 1 ? 's' : ''}`);
+    if (bw.length) chips.push(`${bw1(toUnit(bw[bw.length - 1].weight, bw[bw.length - 1].unit))} ${unit()}`);
+
+    if (es.every(e => e.type === 'bodyweight')) {
+      const b = bw[bw.length - 1];
+      return `<article class="card compact"><div class="row"><div class="main"><h3>${esc(fmtDay(k))}</h3><div class="note">Weigh-in ${esc(fmtTime(b.time))}</div></div><span class="what num">${bw1(toUnit(b.weight, b.unit))} ${esc(unit())}</span>${flag(b)}${thumb(b, 'Weigh-in')}</div></article>`;
+    }
+    let html = `<article class="card"><div class="day-head"><h3>${esc(fmtDay(k))}</h3></div><p class="chips">${esc(chips.join(' · '))}</p>`;
+
+    if (groups.size) {
+      html += '<h4>Workout</h4>';
+      for (const gr of groups.values()) {
+        html += `<div class="ex"><div class="ex-name">${esc(gr.name)}</div><ol class="rows">` + gr.sets.map((s, i) =>
+          `<li class="row"><span class="idx">${i + 1}</span><div class="main"><span class="what">${setText(s)}</span>${flag(s)}${note(s)}</div><time>${esc(fmtTime(s.time))}</time>${thumb(s, `${gr.name} · ${setText(s)}`)}</li>`).join('') + '</ol></div>';
+      }
+    }
+    if (cardio.length) {
+      html += '<h4>Cardio</h4><ul class="rows">' + cardio.map(c => {
+        const bits = [c.minutes != null && `${num(c.minutes, 0)} min`, c.distance_km != null && `${num(c.distance_km, 2)} km`, c.kcal != null && `${num(c.kcal, 0)} kcal`].filter(Boolean);
+        return `<li class="row"><div class="main"><span class="what"><b>${esc(c.machine)}</b> ${esc(bits.join(' · '))}</span>${flag(c)}${note(c)}</div><time>${esc(fmtTime(c.time))}</time>${thumb(c, c.machine)}</li>`;
+      }).join('') + '</ul>';
+    }
+    if (bw.length) {
+      html += '<h4>Weigh-in</h4><ul class="rows">' + bw.map(b =>
+        `<li class="row"><div class="main"><span class="what">${bw1(toUnit(b.weight, b.unit))} ${esc(unit())}</span>${flag(b)}${note(b)}</div><time>${esc(fmtTime(b.time))}</time>${thumb(b, 'Weigh-in')}</li>`).join('') + '</ul>';
+    }
+    if (food.length) {
+      const macro = k => food.reduce((a, f) => a + (typeof f[k] === 'number' ? f[k] : 0), 0);
+      html += '<h4>Food</h4><ul class="rows">' + food.map(f => {
+        const m = [['P', f.protein_g], ['C', f.carbs_g], ['F', f.fat_g]].filter(([, v]) => v != null).map(([l, v]) => `${l} ${num(v, 0)}g`).join(' · ');
+        return `<li class="row"><div class="main"><span class="what">${f.meal ? `<b>${esc(f.meal[0].toUpperCase() + f.meal.slice(1))}:</b> ` : ''}${esc(f.description)}</span>${flag(f)}${m ? `<div class="note">${esc(m)}</div>` : ''}${note(f)}</div><span class="kcal">${f.kcal != null ? '≈' + num(f.kcal, 0) : ''}</span><time>${esc(fmtTime(f.time))}</time>${thumb(f, f.description)}</li>`;
+      }).join('') + '</ul>';
+      if (food.length > 1 && kcal) {
+        const ms = [['P', macro('protein_g')], ['C', macro('carbs_g')], ['F', macro('fat_g')]].filter(([, v]) => v).map(([l, v]) => `${l} ${num(v, 0)}g`).join(' · ');
+        html += `<div class="total"><span>Total ≈${num(kcal, 0)} kcal</span><span class="macros">${esc(ms)}</span></div>`;
+      }
+    }
+    if (notes.length) {
+      html += '<h4>Notes</h4><ul class="rows">' + notes.map(n =>
+        `<li class="row"><div class="main"><span class="what">${esc(n.text)}</span>${note(n)}</div><time>${esc(fmtTime(n.time))}</time>${thumb(n, n.text)}</li>`).join('') + '</ul>';
+    }
+    return html + '</article>';
+  }).join('');
+}
+
+function renderExercises() {
+  const ex = new Map();
+  for (const s of state.entries.filter(e => e.type === 'set')) {
+    const key = exerciseKey(s.exercise);
+    if (!ex.has(key)) ex.set(key, { name: s.exercise, days: new Map(), last: 0 });
+    const g = ex.get(key), k = dayKey(s.time);
+    if (!g.days.has(k)) g.days.set(k, []);
+    g.days.get(k).push(s);
+    g.last = Math.max(g.last, new Date(s.time).getTime());
+  }
+  if (!ex.size) return '<div class="card"><p class="empty">No sets logged yet.</p></div>';
+  return [...ex.values()].sort((a, b) => b.last - a.last).map(g => {
+    const all = [...g.days.values()].flat();
+    const ws = all.map(s => toUnit(s.weight, s.unit)).filter(v => typeof v === 'number');
+    const best = ws.length ? `Heaviest ${num(Math.max(...ws))} ${unit()} · ` : '';
+    const rows = [...g.days.entries()].reverse().map(([k, ss]) =>
+      `<tr><td>${esc(fmtDay(k, { weekday: 'short', day: 'numeric', month: 'short' }))}</td><td class="num">${ss.map(s => `<span class="nw">${setText(s)}</span>`).join(', ')}</td></tr>`).join('');
+    return `<article class="card"><h3>${esc(g.name)}</h3><p class="chips">${best}${g.days.size} session${g.days.size > 1 ? 's' : ''} · ${all.length} sets</p><table class="hist" style="margin-top:8px">${rows}</table></article>`;
+  }).join('');
+}
+
+/* ---------- interactions ---------- */
+$('#range').addEventListener('click', ev => {
+  const b = ev.target.closest('button'); if (!b) return;
+  state.range = b.dataset.range;
+  for (const x of $('#range').children) x.setAttribute('aria-pressed', String(x === b));
+  renderWeight();
+});
+$('#view-toggle').addEventListener('click', ev => {
+  const b = ev.target.closest('button'); if (!b) return;
+  state.view = b.dataset.view;
+  for (const x of $('#view-toggle').children) x.setAttribute('aria-pressed', String(x === b));
+  renderView();
+});
+const lb = $('#lightbox');
+document.addEventListener('click', ev => {
+  const t = ev.target.closest('.thumb');
+  if (t) {
+    $('img', lb).src = t.dataset.src;
+    $('p', lb).textContent = t.dataset.cap;
+    lb.showModal();
+  } else if (ev.target === lb || ev.target.id === 'lightbox-close') {
+    lb.close();
+  }
+});
+let rt;
+window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderWeight, 120); });
+
+load();
+</script>
+</body>
+</html>
