@@ -48,6 +48,8 @@ Log weights the same way the trainer writes them, so they can be compared direct
 
 - **Single-leg press:** log the weight **per side**, and put "per side" in `--notes`.
 - **Dumbbells and kettlebells** (goblet squat, single-arm dumbbell row): log the weight of **one** dumbbell.
-- **Flat bench, RDL, rack pull:** not yet confirmed whether these are barbell or dumbbell, or
-  whether the bar is included. Until confirmed, log what the photo shows and state the
-  assumption in `--notes`.
+- **Barbell lifts** (RDL is confirmed barbell): the trainer's numbers **don't include the bar**.
+  Log the total weight of the plates loaded (both sides together, bar excluded), and put
+  "plates only, excl. bar" in `--notes`.
+- **Flat bench, rack pull:** not yet confirmed whether these are barbell or dumbbell. If the photo
+  shows a barbell, use the barbell rule above. If it shows dumbbells, use the dumbbell rule.
