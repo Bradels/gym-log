@@ -62,6 +62,16 @@ still eat the foods you enjoy. Body weight is weighed in daily and the plan gets
 | 10,000 steps | 3–4 days |
 | Incline walk or cardio of choice | 2 × 30–40 min |
 
+## Food notes
+
+Use these when suggesting meals or snacks.
+
+- **Can't eat bananas.**
+- **Doesn't like eggs or avocado.** Eggs are fine on wholegrain toast with baked beans or plenty of tomato sauce.
+- **Cooks for one, with as little mess as possible.** Eats whatever gets cooked, so size recipes to one serve.
+  No air fryer; oven and microwave only; minimal chopping. The one-tray foil-parcel chicken
+  (fillets on frozen veg, sauce on top, sealed in foil, 200°C for ~30 min, microwave rice cups) works.
+
 ## Logging conventions
 
 Log weights the same way the trainer writes them, so they can be compared directly:
