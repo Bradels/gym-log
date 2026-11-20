@@ -2,142 +2,157 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Gym Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <style>
-/* ── Tokens: light ── */
+/* Layout: a summary row, then one card per day (food, training, notes), then the week and the plan.
+   Type: condensed gym-sign display face for headings and numbers, Inter for reading.
+   Colour: warm iron-and-chalk neutrals with one bronze accent; good/over states stay semantic. */
 :root {
   color-scheme: light;
-  --bg: #f8f7f4;
-  --card: rgba(0,0,0,0.02);
-  --card-border: rgba(0,0,0,0.09);
-  --rule: rgba(0,0,0,0.08);
-  --hover: rgba(0,0,0,0.04);
-  --ink: #1a1a2e;
-  --ink-2: #444;
-  --ink-3: #6b6b6b;
-  --accent: #d4a574;
-  --accent-ink: #b8875a;
-  --accent-soft: rgba(212,165,116,0.10);
-  --accent-line: rgba(184,135,90,0.45);
-  --mark: #b8875a;
-  --mark-hover: #d4a574;
-  --track: rgba(184,135,90,0.18);
-  --band: rgba(184,135,90,0.38);
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --bg: #f5f4f1;
+  --card: #ffffff;
+  --card-border: rgba(40,30,15,0.10);
+  --rule: rgba(40,30,15,0.09);
+  --hover: rgba(40,30,15,0.04);
+  --ink: #1b1813;
+  --ink-2: #4a443c;
+  --ink-3: #6b645a;
+  --accent: #c8935a;
+  --accent-ink: #94642f;
+  --accent-soft: rgba(200,147,90,0.10);
+  --accent-line: rgba(148,100,47,0.38);
+  --mark: #b07c45;
+  --mark-hover: #c8935a;
+  --track: rgba(176,124,69,0.16);
+  --band: rgba(176,124,69,0.36);
   --serious: #d9663a;
   --good: #0ca30c;
   --good-ink: #006300;
   --flag-bg: #fff2cf;
   --flag-text: #6b4a00;
   --tip-bg: #ffffff;
-  --tip-border: rgba(0,0,0,0.1);
-  --tip-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  --orb-opacity: 0.06;
+  --tip-border: rgba(40,30,15,0.12);
+  --tip-shadow: 0 8px 24px rgba(40,30,15,0.12);
+  --focus: #94642f;
 }
-/* ── Tokens: dark (follows the system unless the toggle chose a theme) ── */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #060609;
-    --card: rgba(255,255,255,0.03);
-    --card-border: rgba(255,255,255,0.07);
-    --rule: rgba(255,255,255,0.07);
-    --hover: rgba(255,255,255,0.04);
-    --ink: #ececec;
-    --ink-2: #b0b0b0;
-    --ink-3: #8a8a8a;
-    --accent-ink: #d4a574;
-    --accent-soft: rgba(212,165,116,0.08);
-    --accent-line: rgba(212,165,116,0.45);
+    --bg: #0d0c0b;
+    --card: #161412;
+    --card-border: rgba(255,240,225,0.08);
+    --rule: rgba(255,240,225,0.08);
+    --hover: rgba(255,240,225,0.04);
+    --ink: #efebe5;
+    --ink-2: #bcb4a9;
+    --ink-3: #91897e;
+    --accent: #d4a574;
+    --accent-ink: #dcb084;
+    --accent-soft: rgba(212,165,116,0.09);
+    --accent-line: rgba(212,165,116,0.40);
     --mark: #d4a574;
     --mark-hover: #e8c9a0;
-    --track: rgba(212,165,116,0.16);
-    --band: rgba(212,165,116,0.34);
+    --track: rgba(212,165,116,0.15);
+    --band: rgba(212,165,116,0.32);
     --serious: #ec835a;
-    --good-ink: #0ca30c;
+    --good-ink: #2fbf2f;
     --flag-bg: #3b2f12;
     --flag-text: #f2cd78;
-    --tip-bg: #16161c;
-    --tip-border: rgba(255,255,255,0.12);
-    --tip-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    --orb-opacity: 0.12;
+    --tip-bg: #1d1a17;
+    --tip-border: rgba(255,240,225,0.12);
+    --tip-shadow: 0 8px 24px rgba(0,0,0,0.45);
+    --focus: #e8c9a0;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #060609;
-  --card: rgba(255,255,255,0.03);
-  --card-border: rgba(255,255,255,0.07);
-  --rule: rgba(255,255,255,0.07);
-  --hover: rgba(255,255,255,0.04);
-  --ink: #ececec;
-  --ink-2: #b0b0b0;
-  --ink-3: #8a8a8a;
-  --accent-ink: #d4a574;
-  --accent-soft: rgba(212,165,116,0.08);
-  --accent-line: rgba(212,165,116,0.45);
+  --bg: #0d0c0b;
+  --card: #161412;
+  --card-border: rgba(255,240,225,0.08);
+  --rule: rgba(255,240,225,0.08);
+  --hover: rgba(255,240,225,0.04);
+  --ink: #efebe5;
+  --ink-2: #bcb4a9;
+  --ink-3: #91897e;
+  --accent: #d4a574;
+  --accent-ink: #dcb084;
+  --accent-soft: rgba(212,165,116,0.09);
+  --accent-line: rgba(212,165,116,0.40);
   --mark: #d4a574;
   --mark-hover: #e8c9a0;
-  --track: rgba(212,165,116,0.16);
-  --band: rgba(212,165,116,0.34);
+  --track: rgba(212,165,116,0.15);
+  --band: rgba(212,165,116,0.32);
   --serious: #ec835a;
-  --good-ink: #0ca30c;
+  --good-ink: #2fbf2f;
   --flag-bg: #3b2f12;
   --flag-text: #f2cd78;
-  --tip-bg: #16161c;
-  --tip-border: rgba(255,255,255,0.12);
-  --tip-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  --orb-opacity: 0.12;
+  --tip-bg: #1d1a17;
+  --tip-border: rgba(255,240,225,0.12);
+  --tip-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  --focus: #e8c9a0;
 }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--ink); min-height: 100vh; overflow-x: hidden;
-  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font: 16px/1.55 var(--font-body);
 }
+h1, h2, h3 { text-wrap: balance; }
 .icon { width: 1em; height: 1em; flex: none; vertical-align: -0.125em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .num { font-variant-numeric: tabular-nums; }
+button:focus-visible, summary:focus-visible, .bar-row:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
-/* ── Background orbs ── */
-.orb { position: fixed; border-radius: 50%; filter: blur(120px); opacity: var(--orb-opacity); pointer-events: none; z-index: 0; }
-.orb-1 { width: 500px; height: 500px; background: #d4a574; top: -150px; left: -100px; animation: f1 22s ease-in-out infinite; }
-.orb-2 { width: 400px; height: 400px; background: #7c6ce0; bottom: -100px; right: -80px; animation: f2 18s ease-in-out infinite; }
-@keyframes f1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(60px,80px); } }
-@keyframes f2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-50px,-60px); } }
-
-.wrap { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 0 16px 56px; }
+.wrap {
+  max-width: 920px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 56px;
+}
 
 /* ── Header ── */
-.top { display: flex; justify-content: flex-end; padding: 16px 0 0; }
+.page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding-block: 2.25rem 1.75rem; }
+.page-header .ph-text { min-width: 0; }
+.eyebrow { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-ink); font-weight: 600; }
+.page-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.75rem, 9vw, 4rem); text-transform: uppercase; letter-spacing: 0.01em; line-height: 0.95; margin: 0.3rem 0 0.6rem; }
+.page-subtitle { color: var(--ink-2); max-width: 60ch; margin: 0; }
+.updated { color: var(--ink-3); font-size: 0.85rem; margin: 0.4rem 0 0; }
 .theme-toggle {
-  width: 40px; height: 40px; border-radius: 10px; cursor: pointer; font-size: 1.1rem;
+  width: 40px; height: 40px; border-radius: 10px; cursor: pointer; font-size: 1.1rem; flex: none;
   border: 1px solid var(--card-border); background: var(--card); color: var(--accent-ink);
   display: inline-flex; align-items: center; justify-content: center;
 }
 .theme-toggle:hover { border-color: var(--accent); }
-.page-header { text-align: center; padding: 1.5rem 0 2rem; }
-.page-title { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 0.4rem; line-height: 1.1; }
-.page-subtitle { color: var(--ink-3); font-size: 1.05rem; max-width: 560px; margin: 0 auto; }
-.updated { color: var(--ink-3); font-size: 0.85rem; margin-top: 0.6rem; }
 
 /* ── KPI row ── */
 .kpi-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-bottom: 2rem; }
 .kpi { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 1.1rem 1.25rem; min-width: 0; }
-.kpi-label { font-size: 0.8rem; color: var(--ink-3); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem; }
+.kpi-label { font-size: 0.8rem; color: var(--ink-3); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .kpi-label .icon { color: var(--accent-ink); }
-.kpi-value { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.kpi-value small { font-size: 0.95rem; font-weight: 600; color: var(--ink-2); margin-left: 0.15rem; }
+.kpi-value { font-family: var(--font-display); font-size: 2.5rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.kpi-value small { font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; color: var(--ink-2); margin-left: 0.2rem; }
 .kpi-sub { font-size: 0.8rem; color: var(--ink-3); margin-top: 0.3rem; }
 
 /* ── Cards ── */
 .log-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
-.card-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+.card-title { font-family: var(--font-display); font-size: 1.85rem; font-weight: 600; line-height: 1.1; margin: 0; }
 .card-kicker { font-size: 0.78rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 0.25rem; }
 .chips { color: var(--ink-2); font-size: 0.88rem; margin: -0.6rem 0 1.5rem; }
+.head-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.state { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--card-border); color: var(--ink); background: var(--card); }
+.state.over { border-color: var(--serious); }
+.state.over .icon { color: var(--serious); }
+.state.good { border-color: var(--good); }
+.state.good .icon { color: var(--good-ink); }
 .pill {
   display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.8rem; border-radius: 50px;
   font-size: 0.75rem; font-weight: 600; border: 1px solid var(--accent-line); color: var(--accent-ink); background: var(--accent-soft);
@@ -157,15 +172,15 @@ body {
 
 /* ── Ranked bars ── */
 .bars { display: flex; flex-direction: column; gap: 2px; }
-.bar-row { display: grid; grid-template-columns: minmax(120px, 210px) 1fr 64px; align-items: center; gap: 0.75rem; padding: 0.4rem 0.5rem; border-radius: 8px; outline: none; }
+.bar-row { display: grid; grid-template-columns: minmax(140px, 280px) 1fr 64px; align-items: center; gap: 0.75rem; padding: 0.4rem 0.5rem; border-radius: 8px; outline: none; }
 .bar-row:hover, .bar-row:focus-visible { background: var(--hover); }
 .bar-row:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
-.bar-name { font-size: 0.88rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-name { font-size: 0.88rem; line-height: 1.35; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .bar-track { height: 18px; }
 .bar-fill { display: block; height: 100%; background: var(--mark); border-radius: 0 4px 4px 0; min-width: 2px; }
 .bar-row:hover .bar-fill, .bar-row:focus-visible .bar-fill { background: var(--mark-hover); }
 .bar-val { font-size: 0.85rem; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
-.bar-axis { display: grid; grid-template-columns: minmax(120px, 210px) 1fr 64px; gap: 0.75rem; padding: 0 0.5rem; margin-top: 0.25rem; }
+.bar-axis { display: grid; grid-template-columns: minmax(140px, 280px) 1fr 64px; gap: 0.75rem; padding: 0 0.5rem; margin-top: 0.25rem; }
 .bar-axis span { grid-column: 2; font-size: 0.72rem; color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 0.3rem; }
 .callout-line { font-size: 0.85rem; color: var(--ink-2); margin: 1rem 0 0; }
 .callout-line strong { color: var(--ink); }
@@ -229,12 +244,13 @@ body {
 
 /* ── Notes & callouts ── */
 .notes { list-style: none; padding: 0; margin: 0 0 1.5rem; }
-.notes li { position: relative; padding: 0.65rem 0 0.65rem 1.5rem; color: var(--ink-2); line-height: 1.7; border-bottom: 1px solid var(--rule); }
+.notes li { position: relative; padding: 0.65rem 0 0.65rem 1.5rem; color: var(--ink-2); line-height: 1.7; border-bottom: 1px solid var(--rule); max-width: 78ch; }
 .notes li:last-child { border-bottom: none; }
 .notes li::before { content: ""; position: absolute; left: 0.25rem; top: 1.3rem; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 .notes strong { color: var(--ink); }
 .notes.tight { margin-bottom: 0; }
-.plan { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; color: var(--ink-2); line-height: 1.7; }
+.plan { border: 1px solid var(--accent-line); background: var(--accent-soft); border-radius: 12px; padding: 1rem 1.25rem; color: var(--ink-2); line-height: 1.7; }
+.plan p { margin: 0; max-width: 70ch; }
 .plan-title { font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.45rem; }
 .plan-title .icon { color: var(--accent-ink); }
 
@@ -242,7 +258,7 @@ body {
 .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.5rem; margin-bottom: 1.5rem; }
 .wday { border: 1px solid var(--card-border); border-radius: 12px; padding: 0.75rem 0.3rem; text-align: center; min-height: 112px; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; min-width: 0; }
 .wday .dname { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; }
-.wday .dnum { font-size: 1.15rem; font-weight: 700; color: var(--ink-2); }
+.wday .dnum { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; line-height: 1; color: var(--ink-2); }
 .wday.trained { border-color: var(--accent-line); background: var(--accent-soft); }
 .wday.trained .dnum { color: var(--ink); }
 .wday.today { box-shadow: inset 0 0 0 1px var(--accent); }
@@ -268,7 +284,8 @@ body {
 .chart .axis text { fill: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; }
 .chart .gridline { stroke: var(--rule); stroke-width: 1; }
 .chart .line { fill: none; stroke: var(--mark); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
-.chart .dot { fill: var(--mark); stroke: var(--bg); stroke-width: 2; }
+.chart .area { fill: var(--track); stroke: none; }
+.chart .dot { fill: var(--mark); stroke: var(--card); stroke-width: 2; }
 .chart .cross { stroke: var(--ink-3); stroke-width: 1; }
 .chart .tip { position: absolute; top: 0; pointer-events: none; background: var(--tip-bg); border: 1px solid var(--tip-border); border-radius: 8px; padding: 6px 9px; font-size: 0.8rem; box-shadow: var(--tip-shadow); white-space: nowrap; transform: translateX(-50%); }
 .empty { color: var(--ink-2); font-size: 0.92rem; margin: 0.5rem 0 0; }
@@ -307,7 +324,7 @@ footer { border-top: 1px solid var(--rule); margin-top: 2rem; padding-top: 1.5re
   .kpi-value { font-size: 1.5rem; }
   .card-title { font-size: 1.3rem; }
 }
-@media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .tooltip-box { transition: none; } }
 </style>
 </head>
 <body>
@@ -337,18 +354,15 @@ footer { border-top: 1px solid var(--rule); margin-top: 2rem; padding-top: 1.5re
   <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
 </svg>
 
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-
 <div class="wrap">
-  <div class="top">
-    <button class="theme-toggle" id="themeToggle" aria-label="Switch between light and dark"><svg class="icon" id="themeIcon"><use href="#i-moon"/></svg></button>
-  </div>
-
   <header class="page-header">
-    <h1 class="page-title" id="title">Gym Log</h1>
-    <p class="page-subtitle">Training, food and body weight, logged from chat and gym photos. Claude does the maths.</p>
-    <p class="updated" id="updated">Loading…</p>
+    <div class="ph-text">
+      <div class="eyebrow">Training · Food · Body weight</div>
+      <h1 class="page-title" id="title">Gym Log</h1>
+      <p class="page-subtitle">Logged from chat and gym photos, and measured against the trainer's plan. Energy in kJ and kcal, weights in kg.</p>
+      <p class="updated" id="updated">Loading…</p>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch between light and dark"><svg class="icon" id="themeIcon"><use href="#i-moon"/></svg></button>
   </header>
 
   <section class="kpi-row" id="kpis" aria-label="Summary"></section>
@@ -542,9 +556,10 @@ function renderKpis() {
   if (foodDays.length) {
     const [k, es] = foodDays[foodDays.length - 1];
     const t = foodTotals(es.filter(e => e.type === 'food'));
-    const lbl = `${shortDay(k)}${k === todayKey() ? ' so far' : ''}`;
-    tiles.push(['flame', `Energy · ${lbl}`, `~${int(t.kcal)}<small>kcal</small>`, `${approx(t.kcal * KJ, 100)} kJ${T ? ` · target ${T.kcal.label}` : ''}`]);
-    tiles.push(['egg', `Protein · ${lbl}`, `~${int(t.protein)}<small>g</small>`, T ? `Target ${T.protein.lo} g` : '']);
+    const today = k === todayKey();
+    const lbl = today ? 'today' : `· ${shortDay(k)}`;
+    tiles.push(['flame', `Energy ${lbl}`, `~${int(t.kcal)}<small>kcal</small>`, `${approx(t.kcal * KJ, 100)} kJ${T ? ` · target ${T.kcal.label}` : ''}`]);
+    tiles.push(['egg', `Protein ${lbl}`, `~${int(t.protein)}<small>g</small>`, T ? `Target ${T.protein.lo} g${today ? `, ${int(Math.max(0, T.protein.lo - t.protein))} g to go` : ''}` : '']);
   } else {
     tiles.push(['flame', 'Energy', '—', 'No food logged yet']);
     tiles.push(['egg', 'Protein', '—', '']);
@@ -556,7 +571,7 @@ function renderKpis() {
     const s = (days.get(k) || []).find(e => e.type === 'note' && e.session);
     return `${s ? s.session : 'Gym'} (${fmtDay(k, { weekday: 'short' })})`;
   };
-  tiles.push(['dumbbell', 'Gym sessions this week', `${sessions.length}`, sessions.map(label).join(', ') || 'None yet']);
+  tiles.push(['dumbbell', 'Gym this week', `${sessions.length}`, sessions.map(label).join(', ') || 'None yet']);
 
   $('#kpis').innerHTML = tiles.map(([i, l, v, s]) =>
     `<div class="kpi"><div class="kpi-label">${ic(i)}${esc(l)}</div><div class="kpi-value">${v}</div><div class="kpi-sub">${esc(s)}</div></div>`).join('');
@@ -606,9 +621,12 @@ function renderWeight() {
     g += `<text x="${x(t)}" y="${H - 6}" text-anchor="${anchor}">${esc(fmtDate(t))}</text>`;
   }
   const d = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(p.v).toFixed(1)}`).join('');
-  const dots = pts.length <= 45 ? pts.map(p => `<circle class="dot" r="4" cx="${x(p.t)}" cy="${y(p.v)}"/>`).join('') : '';
+  const lastPt = pts[pts.length - 1];
+  const area = `${d}L${x(t1).toFixed(1)},${m.t + ih}L${x(t0).toFixed(1)},${m.t + ih}Z`;
+  const dots = (pts.length <= 45 ? pts.slice(0, -1).map(p => `<circle class="dot" r="3.5" cx="${x(p.t)}" cy="${y(p.v)}"/>`).join('') : '') +
+    `<circle class="dot" r="6" cx="${x(lastPt.t)}" cy="${y(lastPt.v)}"/>`;
   box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Body weight over time, ${pts.length} weigh-ins">
-    <g class="axis">${g}</g><path class="line" d="${d}"/>${dots}
+    <g class="axis">${g}</g><path class="area" d="${area}"/><path class="line" d="${d}"/>${dots}
     <line class="cross" y1="${m.t}" y2="${m.t + ih}" visibility="hidden"/>
     <circle class="dot focus" r="5" visibility="hidden"/>
     <rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent"/>
@@ -688,7 +706,7 @@ function renderFood(k, food, water) {
         <span class="bar-name">${esc(f.description)}</span>
         <span class="bar-track"><span class="bar-fill" style="width:${(f.kcal / axisMax) * 100}%"></span></span>
         <span class="bar-val">${int(f.kcal)}</span>
-      </div>`).join('') + `</div><div class="bar-axis"><span>0 — ${int(axisMax)} kcal</span></div>${groupLine ? `<p class="callout-line">${groupLine}</p>` : ''}</div>`;
+      </div>`).join('') + `</div><div class="bar-axis"><span>0–${int(axisMax)} kcal</span></div>${groupLine ? `<p class="callout-line">${groupLine}</p>` : ''}</div>`;
   }
 
   const cell = v => typeof v === 'number' ? `${int(v)} g` : '–';
@@ -779,18 +797,25 @@ function renderDayCard(k, es) {
   if (bw.length) chips.push(`${bw1(toUnit(bw[bw.length - 1].weight, bw[bw.length - 1].unit))} ${unit()}`);
 
   const kicker = [food.length && 'Food', (sets.length || cardio.length || session || steps.length) && 'Training', bw.length && 'Weigh-in'].filter(Boolean).join(' · ') || 'Log';
-  const pill = isToday
+  const T = state.targets;
+  let stateChip = '';
+  if (food.length && T && t.kcal) {
+    if (t.kcal > T.kcal.hi) stateChip = `<span class="state over">${ic('alert')}${int(t.kcal - T.kcal.hi)} kcal over</span>`;
+    else if (t.kcal >= T.kcal.lo) stateChip = `<span class="state good">${ic('check-circle')}On target</span>`;
+    else stateChip = `<span class="state">${int(T.kcal.lo - t.kcal)} kcal ${isToday ? 'to go' : 'under'}</span>`;
+  }
+  const pill = (isToday
     ? `<span class="pill">${ic('hourglass')}So far today</span>`
-    : food.length ? `<span class="pill">${ic('check')}Full day</span>` : '';
+    : food.length ? `<span class="pill">${ic('check')}Full day</span>` : '') + stateChip;
 
   const training = renderTraining(sets, cardio, steps, bw, notesE, water, food.length > 0);
   let html = `<article class="log-card">
-    <div class="card-head"><div><div class="card-kicker">${esc(kicker)}</div><h2 class="card-title">${esc(longDay(k))}</h2></div>${pill}</div>
+    <div class="card-head"><div><div class="card-kicker">${esc(kicker)}</div><h2 class="card-title">${esc(longDay(k))}</h2></div>${pill ? `<div class="head-tags">${pill}</div>` : ''}</div>
     ${chips.length ? `<p class="chips">${esc(chips.join(' · '))}</p>` : ''}`;
   if (food.length) html += renderFood(k, food, water);
   if (training) html += `<div class="section"><p class="section-label">${ic('dumbbell')}Training &amp; body</p>${training}</div>`;
   if (dn.notes && dn.notes.length) html += `<div class="section"><p class="section-label">${ic('chat')}Claude's take</p><ul class="notes${dn.callout ? '' : ' tight'}">${dn.notes.map(n => `<li>${n}</li>`).join('')}</ul></div>`;
-  if (dn.callout) html += `<div class="plan"><div class="plan-title">${ic('bulb')}${esc(dn.callout.title)}</div>${esc(dn.callout.text)}</div>`;
+  if (dn.callout) html += `<div class="plan"><div class="plan-title">${ic('bulb')}${esc(dn.callout.title)}</div><p>${esc(dn.callout.text)}</p></div>`;
   return html + '</article>';
 }
 
@@ -845,7 +870,7 @@ function renderWeek() {
       <span class="pill">${ic('dumbbell')}${gymN} gym session${gymN === 1 ? '' : 's'}</span></div>
     <div class="week">${cells}</div>
     ${meters}
-    ${wn ? `<div class="plan"><div class="plan-title">${ic('repeat')}Rest of the week</div>${esc(wn)}</div>` : ''}
+    ${wn ? `<div class="plan"><div class="plan-title">${ic('repeat')}Rest of the week</div><p>${esc(wn)}</p></div>` : ''}
   </article>`;
 }
 

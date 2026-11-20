@@ -146,6 +146,8 @@ their call.
 ## Changing the page
 
 If they ask for changes to the site, edit `index.html`. It is a single self-contained file with
-no build step and no external libraries (icons are inline SVG); keep it that way. Check it at phone width (about 390px)
+no build step and no external libraries (icons are inline SVG); keep it that way. The only
+outside load is two Google Fonts (Barlow Condensed for headings and numbers, Inter for text),
+each with a system fallback. Keep the design tokens in the `:root` block at the top of the style. Check it at phone width (about 390px)
 in light and dark mode before pushing. To preview locally, run `python3 -m http.server` and open
 it with Playwright.
