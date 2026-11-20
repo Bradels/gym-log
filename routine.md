@@ -70,7 +70,8 @@ Use these when suggesting meals or snacks.
 - **Doesn't like eggs or avocado.** Eggs are fine on wholegrain toast with baked beans or plenty of tomato sauce.
 - **Cooks for one, with as little mess as possible.** Eats whatever gets cooked, so size recipes to one serve.
   No air fryer; oven and microwave only; minimal chopping. The one-tray foil-parcel chicken
-  (fillets on frozen veg, sauce on top, sealed in foil, 200°C for ~30 min, microwave rice cups) works.
+  (fillets on frozen veg, sauce on top, sealed in foil, 200°C for ~30 min, microwave rice cups) is the go-to.
+  Packs often come bigger than one serve: cook about 600 g raw and keep the rest for the next day.
 
 ## Logging conventions
 
