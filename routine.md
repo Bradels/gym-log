@@ -42,6 +42,25 @@ matches what the trainer wrote.
 |---|---|
 | Single-arm dumbbell row | 16–18 kg |
 
+## Nutrition and cardio targets
+
+From the personal trainer, 20 Nov 2026. Starting on fairly high calories: mostly whole foods, but
+still eat the foods you enjoy. Body weight is weighed in daily and the plan gets adjusted from the trend.
+
+| Daily | Target |
+|---|---|
+| Energy | 2,800 kcal (±100) |
+| Protein | 180 g |
+| Carbs | 300–340 g |
+| Fat | 70–80 g |
+| Water | 3+ L |
+| Weigh-in | Every day |
+
+| Weekly | Target |
+|---|---|
+| 10,000 steps | 3–4 days |
+| Incline walk or cardio of choice | 2 × 30–40 min |
+
 ## Logging conventions
 
 Log weights the same way the trainer writes them, so they can be compared directly:
