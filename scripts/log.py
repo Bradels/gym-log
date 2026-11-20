@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Add, edit, delete and list gym log entries, and process photos for the public site.
+"""Add, edit, delete and list gym log entries, and save photos to the repo.
 
 Every entry lives in data/log.json. Photos are shrunk to 1280px and stripped of all
-metadata (including GPS location) before they are written into photos/.
+metadata (including GPS location) before they are written into _photos/. Photos are kept
+in the repo only: the site never shows them, and the deploy deletes _photos/ before publishing.
 
 Examples (run from the repo root):
   python3 scripts/log.py uploads
@@ -13,6 +14,9 @@ Examples (run from the repo root):
       --data '{"meal":"lunch","description":"Chicken, rice, broccoli","kcal":650,"protein_g":45,"carbs_g":70,"fat_g":15}'
   python3 scripts/log.py add cardio --photo latest --data '{"machine":"Treadmill","minutes":20,"distance_km":3.1,"kcal":210}'
   python3 scripts/log.py add note --data '{"text":"Left shoulder a bit sore"}'
+  python3 scripts/log.py add note --data '{"text":"Gym: lower day","session":"Legs"}'
+  python3 scripts/log.py add steps --data '{"steps":10450}'
+  python3 scripts/log.py add water --data '{"litres":0.75}'
   python3 scripts/log.py edit last --data '{"weight":50}'
   python3 scripts/log.py delete last
   python3 scripts/log.py today
@@ -42,10 +46,13 @@ QUALITY = 78
 TYPES = {
     "set": {"required": ["exercise"], "numbers": ["weight", "reps"]},
     "bodyweight": {"required": ["weight"], "numbers": ["weight"]},
-    "food": {"required": ["description"], "numbers": ["kcal", "protein_g", "carbs_g", "fat_g"]},
+    "food": {"required": ["description"], "numbers": ["kcal", "protein_g", "carbs_g", "fat_g", "sugar_g"]},
     "cardio": {"required": ["machine"], "numbers": ["minutes", "distance_km", "kcal"]},
     "note": {"required": ["text"], "numbers": []},
+    "steps": {"required": ["steps"], "numbers": ["steps"]},
+    "water": {"required": ["litres"], "numbers": ["litres"]},
 }
+PHOTO_DIR = "_photos"
 CORE_KEYS = {"id", "time", "type", "photo", "src_hash", "confidence", "notes"}
 
 
@@ -185,6 +192,10 @@ def summary(e):
             if e.get(k) is not None:
                 bits.append(f"{fmt_num(e[k])} {unit}")
         return " ".join(bits)
+    if t == "steps":
+        return f"{fmt_num(e['steps'])} steps"
+    if t == "water":
+        return f"Water {fmt_num(e['litres'])} L"
     return e.get("text", "")
 
 
@@ -237,7 +248,7 @@ def attach_photo(entry, src, entries):
     if dup:
         print(f"warning: this exact photo is already attached to {dup['id']} ({summary(dup)})", file=sys.stderr)
     dt = datetime.fromisoformat(entry["time"]).astimezone(tz())
-    rel = Path("photos") / f"{dt:%Y}" / f"{dt:%m}" / f"{dt:%d}" / f"{entry['id'].split('-', 1)[1]}.jpg"
+    rel = Path(PHOTO_DIR) / f"{dt:%Y}" / f"{dt:%m}" / f"{dt:%d}" / f"{entry['id'].split('-', 1)[1]}.jpg"
     size = process_photo(src, ROOT / rel)
     entry["photo"] = rel.as_posix()
     entry["src_hash"] = h
@@ -368,10 +379,10 @@ def cmd_uploads(a):
 def cmd_ref(a):
     src = resolve_photo(a.photo)
     slug = "".join(c if c.isalnum() else "-" for c in a.name.lower()).strip("-")
-    dest = ROOT / "reference" / "photos" / f"{slug}.jpg"
+    dest = ROOT / PHOTO_DIR / "reference" / f"{slug}.jpg"
     n = 2
     while dest.exists():
-        dest = ROOT / "reference" / "photos" / f"{slug}-{n}.jpg"
+        dest = ROOT / PHOTO_DIR / "reference" / f"{slug}-{n}.jpg"
         n += 1
     size = process_photo(src, dest)
     print(f"reference photo saved: {dest.relative_to(ROOT).as_posix()} ({size // 1024} KB, metadata stripped)")

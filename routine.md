@@ -44,7 +44,8 @@ matches what the trainer wrote.
 
 ## Nutrition and cardio targets
 
-From the personal trainer, 20 Nov 2026. Starting on fairly high calories: mostly whole foods, but
+From the personal trainer, 20 Nov 2026. The page reads these from `data/targets.json`, so keep the
+two in sync. Starting on fairly high calories: mostly whole foods, but
 still eat the foods you enjoy. Body weight is weighed in daily and the plan gets adjusted from the trend.
 
 | Daily | Target |

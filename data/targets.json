@@ -1,0 +1,40 @@
+{
+  "source": "Set by the personal trainer on 20 Nov 2026",
+  "from": "2026-11-20",
+  "kcal": {
+    "lo": 2700,
+    "hi": 2900,
+    "label": "2,800 ±100 kcal"
+  },
+  "protein": {
+    "lo": 180
+  },
+  "carbs": {
+    "lo": 300,
+    "hi": 340
+  },
+  "fat": {
+    "lo": 70,
+    "hi": 80
+  },
+  "waterL": {
+    "lo": 3
+  },
+  "weekly": {
+    "stepDays": {
+      "lo": 3,
+      "hi": 4,
+      "steps": 10000
+    },
+    "cardio": {
+      "lo": 2,
+      "minutes": "30–40",
+      "type": "Incline walk or cardio of choice"
+    }
+  },
+  "approach": [
+    "Weigh in daily. The plan gets adjusted based on how weight moves.",
+    "Starting on fairly high calories, so eat whole foods as much as possible, but still eat the foods you enjoy.",
+    "Nobody's perfect. What matters is how you react after an off-plan meal: one bad meal won't ruin progress, but one bad day will."
+  ]
+}

@@ -6,16 +6,25 @@ each photo, log it, publish it, and reply in one short line. The aim is **low fr
 A quick best guess they can correct beats a question that slows them down.
 
 - `data/log.json` is the single source of truth (one entry per line, sorted by time).
+- `data/targets.json` holds the trainer's daily and weekly targets; the page measures each day against them.
+- `data/notes.json` holds Claude's commentary: per-day notes and a callout (`days`), and a
+  note per week keyed by that week's Monday (`weeks`).
 - `index.html` is the public page, deployed by GitHub Pages on every push to `main`.
   Their personal trainer reads it, so it needs to stay tidy.
-- `photos/` holds the published photos. Each is resized to 1280px and has all metadata
+- `_photos/` holds the photos. Each is resized to 1280px and has all metadata
   (including GPS location) stripped by the script. The original upload is never committed.
-- `routine.md` is the workout routine. `reference/machines.md` describes how to recognise each
-  machine and read its weight; `reference/photos/` has a reference shot of each.
+- `routine.md` is the workout routine and the trainer's nutrition and cardio targets.
+  `reference/machines.md` describes how to recognise each machine and read its weight;
+  `_photos/reference/` has a reference shot of each.
 - `config.json` has the timezone, locale and default unit (kg).
 
-**Everything is public.** The repo and site are public, and anything pushed stays in git
-history even if deleted later.
+**Standing rule: photos never go on the site.** Photos are kept in the repo (in `_photos/`),
+never shown on the page, linked from it, or copied anywhere the site serves. The deploy deletes
+`_photos/` before publishing (`.github/workflows/pages.yml`); keep that step, and keep
+`index.html` free of any image display.
+
+**Everything in the repo is public.** The repo is public, so photos in `_photos/` can be seen on
+GitHub, and anything pushed stays in git history even if deleted later.
 
 ## At the start of a session
 
@@ -32,7 +41,7 @@ Do this once, quietly, before or alongside the first photo:
    `python3 scripts/log.py uploads` lists uploaded images newest first and marks any already
    logged, and `--photo latest` means the newest. If the upload can't be found as a file, log
    the data anyway with no photo and say "photo not saved" in your reply.
-   If the user says not to post a photo, leave out `--photo`.
+   `--photo` saves the photo to `_photos/` in the repo; it never appears on the site.
 2. **Work out what it is**, then log it with `scripts/log.py add <type>` (see below).
 3. **Run the privacy check** (below) before attaching the photo.
 4. **Commit and push straight away** in the same command, because the container is
@@ -59,7 +68,9 @@ logging something after the fact.
 | `bodyweight` | the scale | `weight` (required) |
 | `food` | a meal, snack, drink, nutrition label | `description` (required), `meal` (breakfast/lunch/dinner/snack), `kcal`, `protein_g`, `carbs_g`, `fat_g` |
 | `cardio` | treadmill, bike, rower display | `machine` (required), `minutes`, `distance_km`, `kcal` |
-| `note` | anything else | `text` (required) |
+| `note` | anything else | `text` (required); add `session` (e.g. `"Legs"`) when it records a gym session whose sets weren't logged |
+| `steps` | a step count (phone or watch screen) | `steps` (required) |
+| `water` | water drunk | `litres` (required) |
 
 ### Sets
 
@@ -87,6 +98,14 @@ with `"unit": "lb"`; the page converts it.
 Describe what you see. Estimate kcal and macros for the portion shown, round to sensible
 numbers, and default to `--confidence low` or `medium`. Put portion assumptions in `--notes`
 (e.g. "assumed ~1 cup rice"). Pick `meal` from the time of day unless told otherwise.
+Also estimate `sugar_g`. Use label values when a wrapper or box shows them, and say so in `--notes`.
+Give treats a `group` (e.g. `"Chocolate"`) so the page can show their share of the day.
+
+After logging food, update that day in `data/notes.json`: a few short bullets (`notes`, HTML
+`<strong>` allowed) on the day so far against `data/targets.json` (energy, protein, carbs, fat,
+the biggest miss, what's left), and a `callout` (`title`, `text`) with the next step, such as a
+plan for the next meal or a takeaway once the day is done. Add a `range` (e.g. "2,850–3,650 kcal")
+when estimates are rough. Keep the tone plain and kind; the trainer reads it too.
 
 ### Corrections
 
@@ -121,10 +140,12 @@ their call.
   machine's row in `reference/machines.md`: what makes it recognisable, and exactly how to read
   its weight (increments, whether the number shown is a total, any add-on weights). Commit and push.
 - When they send or change their routine, update `routine.md`. Commit and push.
+- When the trainer changes the targets, update both `routine.md` and `data/targets.json`
+  (`from` is the date they start). Commit and push.
 
 ## Changing the page
 
 If they ask for changes to the site, edit `index.html`. It is a single self-contained file with
-no build step and no external libraries; keep it that way. Check it at phone width (about 390px)
+no build step and no external libraries (icons are inline SVG); keep it that way. Check it at phone width (about 390px)
 in light and dark mode before pushing. To preview locally, run `python3 -m http.server` and open
 it with Playwright.
