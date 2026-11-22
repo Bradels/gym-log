@@ -7,6 +7,8 @@ A quick best guess they can correct beats a question that slows them down.
 
 - `data/log.json` is the single source of truth (one entry per line, sorted by time).
 - `data/targets.json` holds the trainer's daily and weekly targets; the page measures each day against them.
+- `data/recipes.json` holds pinned recipes: ingredients with macros, method, tips, and the
+  `variations` the user has actually made.
 - `data/notes.json` holds Claude's commentary: per-day notes and a callout (`days`), and a
   note per week keyed by that week's Monday (`weeks`).
 - `index.html` is the public page, deployed by GitHub Pages on every push to `main`.
@@ -106,6 +108,17 @@ After logging food, update that day in `data/notes.json`: a few short bullets (`
 the biggest miss, what's left), and a `callout` (`title`, `text`) with the next step, such as a
 plan for the next meal or a takeaway once the day is done. Add a `range` (e.g. "2,850–3,650 kcal")
 when estimates are rough. Keep the tone plain and kind; the trainer reads it too.
+
+### Recipes
+
+- When you work out a recipe with the user, add it to `data/recipes.json` with `pinned: true`:
+  ingredients (amount and kcal/macros each, `optional: true` for extras), `method` steps, `tips`,
+  and a first variation. Size it to one serve (see the food notes in `routine.md`).
+- When they cook a pinned recipe, log the food as usual and tag each entry from it with
+  `"recipe": "<recipe id>"` and `"variation": "<variation id>"`.
+- If they changed something (no rice, extra veg, a different sauce), add a new variation with a
+  short `changes` note, its totals and `first_made` date, rather than editing the recipe itself.
+  Reuse an existing variation when it matches. Commit and push.
 
 ### Corrections
 

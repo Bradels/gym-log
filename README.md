@@ -3,7 +3,8 @@
 A low-friction workout, body-weight and food log. Photos and messages are sent to Claude,
 which reads them, logs the result in `data/log.json`, and pushes. GitHub Pages then publishes
 the log as a page (`index.html`) with each day's food and training measured against the
-trainer's targets (`data/targets.json`) and Claude's notes (`data/notes.json`).
+trainer's targets (`data/targets.json`), Claude's notes (`data/notes.json`) and pinned
+recipes with the variations actually made (`data/recipes.json`).
 Photos stay in the repo (`_photos/`) and are never published on the site.
 
 Numbers are read off photos, so they're best guesses rather than precise records.

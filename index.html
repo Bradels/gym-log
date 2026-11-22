@@ -278,6 +278,18 @@ button:focus-visible, summary:focus-visible, .bar-row:focus-visible { outline: 2
 .t-val { font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
 .t-val small { display: block; font-weight: 400; color: var(--ink-3); font-size: 0.75rem; }
 
+/* ── Recipes ── */
+.recipe + .recipe { border-top: 1px solid var(--rule); margin-top: 2rem; padding-top: 2rem; }
+.recipe-name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; line-height: 1.1; margin: 0 0 0.35rem; }
+.recipe-sum { color: var(--ink-2); max-width: 70ch; margin: 0 0 0.5rem; }
+.recipe-meta { color: var(--ink-3); font-size: 0.85rem; margin: 0 0 1.5rem; }
+.recipe-grid { display: grid; grid-template-columns: 1fr; gap: 1.75rem; margin-bottom: 1.5rem; }
+.recipe-grid > div { min-width: 0; }
+.method { margin: 0; padding-left: 1.25rem; color: var(--ink-2); line-height: 1.6; }
+.method li { padding: 0.2rem 0; max-width: 70ch; }
+.opt { color: var(--ink-3); font-weight: 400; }
+.item-recipe { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; color: var(--accent-ink); font-weight: 600; margin-top: 0.2rem; }
+
 /* ── Weight chart ── */
 .chart { position: relative; margin-top: 0.5rem; touch-action: pan-y; }
 .chart svg { display: block; width: 100%; overflow: visible; }
@@ -351,6 +363,8 @@ footer { border-top: 1px solid var(--rule); margin-top: 2rem; padding-top: 1.5re
   <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.2a2 2 0 0 0-.6-1.4L12 12l-4.4 4.4a2 2 0 0 0-.6 1.4V22M7 2v4.2a2 2 0 0 0 .6 1.4L12 12l4.4-4.4a2 2 0 0 0 .6-1.4V2"/></symbol>
   <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 1 4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM16 11l2 2 4-4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
   <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
 </svg>
 
@@ -408,7 +422,7 @@ footer { border-top: 1px solid var(--rule); margin-top: 2rem; padding-top: 1.5re
 <div class="tooltip-box" id="tooltip" role="status" aria-live="polite"></div>
 
 <script>
-const state = { config: {}, entries: [], targets: null, notes: { days: {}, weeks: {} }, range: 'all', view: 'days', showAll: false };
+const state = { config: {}, entries: [], targets: null, notes: { days: {}, weeks: {} }, recipes: [], range: 'all', view: 'days', showAll: false };
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ic = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
@@ -470,12 +484,14 @@ async function getJSON(path, fallback) {
 }
 async function load() {
   try {
-    const [cfg, log, targets, notes] = await Promise.all([
+    const [cfg, log, targets, notes, recipes] = await Promise.all([
       getJSON('config.json', {}),
       fetch('data/log.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }),
       getJSON('data/targets.json', null),
       getJSON('data/notes.json', {}),
+      getJSON('data/recipes.json', {}),
     ]);
+    state.recipes = (recipes && recipes.recipes) || [];
     state.config = cfg || {};
     state.targets = targets;
     state.notes = { days: {}, weeks: {}, ...(notes || {}) };
@@ -713,7 +729,7 @@ function renderFood(k, food, water) {
   html += `<div class="section"><p class="section-label">${ic('table')}What I ate</p><div class="table-scroll"><table class="food-table">
     <thead><tr><th>Item</th><th>kJ</th><th>kcal</th><th>Protein</th><th>Carbs</th><th>Fat</th><th>Sugar</th></tr></thead><tbody>` +
     food.map(f => `<tr>
-      <td>${f.meal ? `<span class="meal">${esc(f.meal)} · ${esc(fmtTime(f.time))}</span>` : ''}${esc(f.description)}${flag(f)}${f.notes ? `<span class="item-note">${esc(f.notes)}</span>` : ''}</td>
+      <td>${f.meal ? `<span class="meal">${esc(f.meal)} · ${esc(fmtTime(f.time))}</span>` : ''}${esc(f.description)}${flag(f)}${recipeTag(f)}${f.notes ? `<span class="item-note">${esc(f.notes)}</span>` : ''}</td>
       <td>${typeof f.kcal === 'number' ? int(f.kcal * KJ) : '–'}</td>
       <td>${typeof f.kcal === 'number' ? int(f.kcal) : '–'}</td>
       <td>${cell(f.protein_g)}</td><td>${cell(f.carbs_g)}</td><td>${cell(f.fat_g)}</td><td>${cell(f.sugar_g)}</td>
@@ -874,6 +890,51 @@ function renderWeek() {
   </article>`;
 }
 
+function recipeTag(f) {
+  if (!f.recipe) return '';
+  const r = state.recipes.find(x => x.id === f.recipe);
+  if (!r) return '';
+  const v = (r.variations || []).find(x => x.id === f.variation);
+  return `<span class="item-recipe">${ic('book')}${esc(r.name)}${v ? ` · ${esc(v.name)}` : ''}</span>`;
+}
+
+function renderRecipes() {
+  const pinned = state.recipes.filter(r => r.pinned);
+  if (!pinned.length) return '';
+  const cell = v => typeof v === 'number' ? `${int(v)} g` : '–';
+  const body = pinned.map(r => {
+    const tagged = state.entries.filter(e => e.recipe === r.id);
+    const days = [...new Set(tagged.map(e => dayKey(e.time)))].sort();
+    const made = days.length ? `Made ${days.length} time${days.length > 1 ? 's' : ''}, last ${shortDay(days[days.length - 1])}` : 'Not made yet';
+    const countFor = id => new Set(tagged.filter(e => e.variation === id).map(e => dayKey(e.time))).size;
+    const ingredients = (r.ingredients || []).map(i => `<tr>
+        <td>${esc(i.item.replace(/\s*\(optional\)$/, ''))}${i.optional ? ' <span class="opt">optional</span>' : ''}<span class="item-note">${esc(i.amount || '')}</span></td>
+        <td>${typeof i.kcal === 'number' ? int(i.kcal) : '–'}</td><td>${cell(i.protein_g)}</td><td>${cell(i.carbs_g)}</td><td>${cell(i.fat_g)}</td></tr>`).join('');
+    const variations = (r.variations || []).map(v => `<tr>
+        <td>${esc(v.name)}<span class="item-note">${esc(v.changes || '')}${countFor(v.id) ? ` Made ${countFor(v.id)}×.` : ''}</span></td>
+        <td>${typeof v.kcal === 'number' ? int(v.kcal) : '–'}</td><td>${cell(v.protein_g)}</td><td>${cell(v.carbs_g)}</td><td>${cell(v.fat_g)}</td></tr>`).join('');
+    return `<div class="recipe">
+      <h3 class="recipe-name">${esc(r.name)}</h3>
+      ${r.summary ? `<p class="recipe-sum">${esc(r.summary)}</p>` : ''}
+      <p class="recipe-meta">${r.serves ? `Serves ${r.serves} · ` : ''}${esc(made)}</p>
+      <p class="section-label">${ic('table')}Versions</p>
+      <div class="table-scroll" style="margin-bottom:1.5rem"><table class="food-table">
+        <thead><tr><th>Version</th><th>kcal</th><th>Protein</th><th>Carbs</th><th>Fat</th></tr></thead><tbody>${variations}</tbody></table></div>
+      <div class="recipe-grid">
+        <div><p class="section-label">${ic('grain')}Ingredients</p><div class="table-scroll"><table class="food-table">
+          <thead><tr><th>Item</th><th>kcal</th><th>Protein</th><th>Carbs</th><th>Fat</th></tr></thead><tbody>${ingredients}</tbody></table></div></div>
+        <div><p class="section-label">${ic('flame')}Method</p><ol class="method">${(r.method || []).map(m => `<li>${esc(m)}</li>`).join('')}</ol></div>
+      </div>
+      ${r.tips && r.tips.length ? `<ul class="notes tight">${r.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
+    </div>`;
+  }).join('');
+  return `<article class="log-card">
+    <div class="card-head"><div><div class="card-kicker">Recipes</div><h2 class="card-title">Pinned recipes</h2></div>
+      <span class="pill">${ic('pin')}${pinned.length} pinned</span></div>
+    ${body}
+  </article>`;
+}
+
 function renderPlan() {
   const T = state.targets;
   if (!T) return '';
@@ -928,11 +989,11 @@ function renderView() {
   const view = $('#view');
   if (!state.entries.length) {
     view.innerHTML = '<article class="log-card"><p class="empty">Nothing logged yet. Entries show up here a minute or so after each message.</p></article>';
-    $('#after').innerHTML = renderPlan();
+    $('#after').innerHTML = renderRecipes() + renderPlan();
     return;
   }
   view.innerHTML = state.view === 'days' ? renderDays() : renderExercises();
-  $('#after').innerHTML = renderWeek() + renderPlan();
+  $('#after').innerHTML = renderWeek() + renderRecipes() + renderPlan();
   const more = $('#show-more');
   if (more) more.addEventListener('click', () => { state.showAll = true; renderView(); });
   wireBars();

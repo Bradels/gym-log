@@ -1,0 +1,100 @@
+{
+  "recipes": [
+    {
+      "id": "foil-parcel-peri-peri-chicken",
+      "name": "Foil-parcel peri-peri chicken",
+      "pinned": true,
+      "added": "2026-11-20",
+      "serves": 1,
+      "summary": "One tray, one bowl, one knife cut. Chicken on frozen veg with peri-peri sauce, sealed in foil and baked, with microwave rice cups.",
+      "ingredients": [
+        {
+          "item": "Chicken breast, raw",
+          "amount": "~600 g",
+          "kcal": 660,
+          "protein_g": 138,
+          "carbs_g": 0,
+          "fat_g": 10
+        },
+        {
+          "item": "Hot peri-peri sauce",
+          "amount": "1½–2 tbsp",
+          "kcal": 20,
+          "protein_g": 0,
+          "carbs_g": 3,
+          "fat_g": 0
+        },
+        {
+          "item": "Frozen veg medley",
+          "amount": "1 bag (~300 g)",
+          "kcal": 180,
+          "protein_g": 6,
+          "carbs_g": 28,
+          "fat_g": 4
+        },
+        {
+          "item": "Microwave jasmine rice cups",
+          "amount": "2 × 125 g",
+          "kcal": 400,
+          "protein_g": 7,
+          "carbs_g": 84,
+          "fat_g": 3
+        },
+        {
+          "item": "Olive oil (optional)",
+          "amount": "1 tbsp",
+          "kcal": 120,
+          "protein_g": 0,
+          "carbs_g": 0,
+          "fat_g": 14,
+          "optional": true
+        },
+        {
+          "item": "Grated cheese (optional)",
+          "amount": "~30 g",
+          "kcal": 120,
+          "protein_g": 7,
+          "carbs_g": 0,
+          "fat_g": 10,
+          "optional": true
+        }
+      ],
+      "method": [
+        "Heat the oven to 200°C (180°C fan-forced).",
+        "Line a tray with foil and tip the frozen veg onto it.",
+        "Lay the chicken on top. Slice any fillet thicker than ~3 cm open like a book.",
+        "Season, then drizzle the peri-peri over the chicken. Hot sauce goes a long way; a squirt of tomato sauce softens it.",
+        "Cover with a second sheet of foil, leave a little air gap, and crimp the edges shut.",
+        "Bake 20–25 minutes for thin fillets (30–35 for thick). Optional: cheese on top for the last 5 minutes.",
+        "Check the thickest overlapping piece is white all the way through with clear juice; if not, 5 more minutes.",
+        "Microwave the rice cups while it rests, then plate."
+      ],
+      "tips": [
+        "Packs often come bigger than one serve: cook ~600 g and keep the rest in the fridge (or freeze it) for the next day.",
+        "Don't leave the oven running while out of the house; cook, check, then go."
+      ],
+      "variations": [
+        {
+          "id": "as-written",
+          "name": "As written",
+          "first_made": "2026-11-20",
+          "changes": "600 g chicken, one bag of veg, hot peri-peri, 2 rice cups; no oil or cheese.",
+          "kcal": 1260,
+          "protein_g": 151,
+          "carbs_g": 115,
+          "fat_g": 17
+        },
+        {
+          "id": "no-rice",
+          "name": "No rice",
+          "first_made": "2026-11-21",
+          "changes": "Same as written but without the rice cups (none at home).",
+          "kcal": 860,
+          "protein_g": 144,
+          "carbs_g": 31,
+          "fat_g": 14
+        }
+      ]
+    }
+  ]
+}
