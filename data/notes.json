@@ -56,13 +56,15 @@
         "<strong>Breakfast:</strong> a yoghurt, two tins of tuna and a caramel latte with 2 sugars. About 370 kcal and ~51 g of protein, a strong protein start.",
         "<strong>Coffee:</strong> a large full-cream McCafé cappuccino with a pump of vanilla. About 225 kcal and ~11 g of protein.",
         "<strong>Lunch from the servo:</strong> a 30 g protein smoothie, a salami & cheese stick and a small bag of chip sticks. About 645 kcal and ~42 g of protein, with ~31 g of fat.",
-        "<strong>Day so far:</strong> about 1,240 kcal, ~104 g of protein, ~101 g of carbs and ~47 g of fat.",
-        "<strong>Still to go:</strong> about 1,460–1,660 kcal, ~76 g of protein, ~200–240 g of carbs, and only ~23–33 g of fat."
+        "<strong>Dinner at Mum's:</strong> creamy chicken and mushroom over rice. Roughly 1,060 kcal and ~73 g of protein, with ~44 g of fat from the cream.",
+        "<strong>Day so far:</strong> about 2,300 kcal, ~177 g of protein, ~188 g of carbs and ~91 g of fat. Energy ~400 under the 2,700 floor and carbs short; fat ~10 g over.",
+        "<strong>Accuracy:</strong> dinner is estimated from a photo, so the rice and cream amounts are guesses. The smoothie's protein and the salami stick are from their labels."
       ],
       "callout": {
-        "title": "Dinner at Mum's",
-        "text": "The creamy chicken will push fat over the 70–80 g range today, which is fine once in a while after a week of low fat. Carbs are the gap: a generous serve of rice (about 2 cups) gets the day close to 2,700."
-      }
+        "title": "Rest of today",
+        "text": "Protein is basically on target. If still hungry later, something carby and low in fat (a yoghurt, fruit, or toast with jam) closes the energy gap without adding to today's fat."
+      },
+      "range": "2,050–2,600 kcal"
     }
   },
   "weeks": {
