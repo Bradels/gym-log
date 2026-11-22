@@ -73,6 +73,18 @@ Use these when suggesting meals or snacks.
   (fillets on frozen veg, sauce on top, sealed in foil, 200°C for ~30 min, microwave rice cups) is the go-to; it's pinned in `data/recipes.json` with its variations.
   Packs often come bigger than one serve: cook about 600 g raw and keep the rest for the next day.
 
+### Staples (use these numbers so entries stay consistent)
+
+| Item | kcal | Protein | Carbs | Fat | Sugar | Source |
+|---|---|---|---|---|---|---|
+| YoP Zero yoghurt, 160 g tub (peach & mango, tropical, berry harvest) | 88 | 10.6 g | 9 g | 0.5 g | 8.6 g | label (peach & mango) |
+| Nescafé Caramel Latte sachet, no added sugar | 72 | 1 g | 12 g | 2 g | 9 g | box energy; macros estimated |
+| Each teaspoon of sugar | 16 | 0 | 4 g | 0 | 4 g | estimate |
+| Splash of full-cream milk (~30 ml) | 20 | 1 g | 2 g | 1 g | 2 g | estimate |
+| John West tuna in springwater, 95 g can | 80 | 19 g | 0 | 1 g | 0 | estimate |
+| Dairy Farmers Protein Smoothie+ 400 ml | 240 | 30 g | 20 g | 4 g | 18 g | protein from label |
+| SunRice jasmine rice cup, 125 g | 200 | 3.5 g | 42 g | 1.5 g | 0 | estimate |
+
 ## Logging conventions
 
 Log weights the same way the trainer writes them, so they can be compared directly:
