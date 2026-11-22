@@ -67,9 +67,21 @@
         "text": "Energy and protein on target. Fat ran high today (the cream and the salami stick) and carbs low; after a week of low fat that evens out. Tomorrow, back to rice or wraps with lean protein."
       },
       "range": "2,450–3,100 kcal"
+    },
+    "2026-11-23": {
+      "notes": [
+        "<strong>Weigh-in:</strong> 113.8 kg, up 0.1 kg on yesterday (normal after a creamy, salty dinner) and down 2.2 kg since last Tuesday.",
+        "<strong>Breakfast:</strong> two yoghurts, about 175 kcal and ~21 g of protein.",
+        "<strong>Still to go:</strong> about 2,525–2,725 kcal, ~159 g of protein, ~282–322 g of carbs and ~69–79 g of fat."
+      ],
+      "callout": {
+        "title": "Today's plan",
+        "text": "Fridge is stocked: the chicken parcel with protein rice cups for dinner, and a peanut butter or cheese wrap for lunch. Carbs and protein both have plenty of room."
+      }
     }
   },
   "weeks": {
-    "2026-11-16": "Legs on Tuesday and Thursday, so make the next gym session upper body. No cardio logged yet this week; a 30–40 minute walk on Sunday would get one of the two in before the week ends."
+    "2026-11-16": "Legs on Tuesday and Thursday, so make the next gym session upper body. No cardio logged yet this week; a 30–40 minute walk on Sunday would get one of the two in before the week ends.",
+    "2026-11-23": "New week. Last week had two leg sessions and no cardio. This week: an upper-body session next, two 30–40 minute walks, and 3–4 days of 10,000 steps. Send step counts as you go."
   }
 }
