@@ -71,7 +71,10 @@
       ],
       "tips": [
         "Packs often come bigger than one serve: cook ~600 g and keep the rest in the fridge (or freeze it) for the next day.",
-        "Don't leave the oven running while out of the house; cook, check, then go."
+        "Don't leave the oven running while out of the house; cook, check, then go.",
+        "Preheat the oven fully before the parcel goes in. Without a preheat, add about 10 minutes.",
+        "For a thick breast, butterfly it and then cut along the fold into two thin pieces, so it cooks evenly in 20–25 minutes.",
+        "Cheese can go on at the start if the foil stays sealed; it just melts. Uncover for the last 2–3 minutes to brown it."
       ],
       "variations": [
         {
@@ -93,6 +96,16 @@
           "protein_g": 142,
           "carbs_g": 20,
           "fat_g": 14.5
+        },
+        {
+          "id": "protein-rice-cheese",
+          "name": "500 g, double veg, protein rice, cheese",
+          "first_made": "2026-11-23",
+          "changes": "~500 g chicken (butterflied, then cut up to finish cooking), 2 steam bags of veg, 2 SunRice protein rice cups, ~30 g cheese on top. A big plate: a little was left over.",
+          "kcal": 1300,
+          "protein_g": 140,
+          "carbs_g": 103,
+          "fat_g": 30
         }
       ]
     }
