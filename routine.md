@@ -83,6 +83,8 @@ Use these when suggesting meals or snacks.
 | Splash of full-cream milk (~30 ml) | 20 | 1 g | 2 g | 1 g | 2 g | estimate |
 | John West tuna in springwater, 95 g can | 80 | 19 g | 0 | 1 g | 0 | estimate |
 | Dairy Farmers Protein Smoothie+ 400 ml | 240 | 30 g | 20 g | 4 g | 18 g | protein from label |
+| Birds Eye Steamfresh baby potatoes & veg, 200 g steam bag (2 per pack) | 125 | 4 g | 18 g | 3.5 g | 4 g | estimate |
+| Shredded tasty cheese, ~30 g (⅓ cup) | 120 | 7.5 g | 0 | 10 g | 0 | estimate |
 | SunRice jasmine rice cup, 125 g | 200 | 3.5 g | 42 g | 1.5 g | 0 | estimate |
 
 ## Logging conventions

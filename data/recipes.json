@@ -25,12 +25,12 @@
           "fat_g": 0
         },
         {
-          "item": "Frozen veg medley",
-          "amount": "1 bag (~300 g)",
-          "kcal": 180,
-          "protein_g": 6,
-          "carbs_g": 28,
-          "fat_g": 4
+          "item": "Birds Eye Steamfresh baby potatoes & veg",
+          "amount": "1 steam bag (200 g)",
+          "kcal": 125,
+          "protein_g": 4,
+          "carbs_g": 18,
+          "fat_g": 3.5
         },
         {
           "item": "Microwave jasmine rice cups",
@@ -61,7 +61,7 @@
       ],
       "method": [
         "Heat the oven to 200°C (180°C fan-forced).",
-        "Line a tray with foil and tip the frozen veg onto it.",
+        "Line a tray with foil and tip the veg out of its steam bag(s) onto it.",
         "Lay the chicken on top. Slice any fillet thicker than ~3 cm open like a book.",
         "Season, then drizzle the peri-peri over the chicken. Hot sauce goes a long way; a squirt of tomato sauce softens it.",
         "Cover with a second sheet of foil, leave a little air gap, and crimp the edges shut.",
@@ -79,20 +79,20 @@
           "name": "As written",
           "first_made": "2026-11-20",
           "changes": "600 g chicken, one bag of veg, hot peri-peri, 2 rice cups; no oil or cheese.",
-          "kcal": 1260,
-          "protein_g": 151,
-          "carbs_g": 115,
-          "fat_g": 17
+          "kcal": 1205,
+          "protein_g": 149,
+          "carbs_g": 105,
+          "fat_g": 16.5
         },
         {
           "id": "no-rice",
           "name": "No rice",
           "first_made": "2026-11-21",
           "changes": "Same as written but without the rice cups (none at home).",
-          "kcal": 860,
-          "protein_g": 144,
-          "carbs_g": 31,
-          "fat_g": 14
+          "kcal": 805,
+          "protein_g": 142,
+          "carbs_g": 21,
+          "fat_g": 13.5
         }
       ]
     }
