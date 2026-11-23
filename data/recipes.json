@@ -27,10 +27,10 @@
         {
           "item": "Birds Eye Steamfresh baby potatoes & veg",
           "amount": "1 steam bag (200 g)",
-          "kcal": 125,
-          "protein_g": 4,
-          "carbs_g": 18,
-          "fat_g": 3.5
+          "kcal": 137,
+          "protein_g": 4.2,
+          "carbs_g": 17.3,
+          "fat_g": 4.5
         },
         {
           "item": "Microwave jasmine rice cups",
@@ -79,20 +79,20 @@
           "name": "As written",
           "first_made": "2026-11-20",
           "changes": "600 g chicken, one bag of veg, hot peri-peri, 2 rice cups; no oil or cheese.",
-          "kcal": 1205,
+          "kcal": 1217,
           "protein_g": 149,
-          "carbs_g": 105,
-          "fat_g": 16.5
+          "carbs_g": 104,
+          "fat_g": 17.5
         },
         {
           "id": "no-rice",
           "name": "No rice",
           "first_made": "2026-11-21",
           "changes": "Same as written but without the rice cups (none at home).",
-          "kcal": 805,
+          "kcal": 817,
           "protein_g": 142,
-          "carbs_g": 21,
-          "fat_g": 13.5
+          "carbs_g": 20,
+          "fat_g": 14.5
         }
       ]
     }
