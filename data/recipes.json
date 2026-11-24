@@ -106,6 +106,16 @@
           "protein_g": 140,
           "carbs_g": 103,
           "fat_g": 30
+        },
+        {
+          "id": "one-veg-one-rice",
+          "name": "500 g, one veg bag, one protein rice cup",
+          "first_made": "2026-11-24",
+          "changes": "~500 g chicken, 1 steam bag of veg, 1 SunRice protein rice cup; no cheese.",
+          "kcal": 897,
+          "protein_g": 123,
+          "carbs_g": 58,
+          "fat_g": 14.3
         }
       ]
     }
