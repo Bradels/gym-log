@@ -118,6 +118,101 @@
           "fat_g": 14.3
         }
       ]
+    },
+    {
+      "id": "tuna-rice-bowl",
+      "name": "Tuna rice bowl",
+      "pinned": true,
+      "added": "2026-11-25",
+      "serves": 1,
+      "summary": "A 10-minute cupboard dinner: microwave rice cup, a steam bag of veg and drained tinned tuna, with cheese melted on top. No real cooking.",
+      "ingredients": [
+        {
+          "item": "SunRice protein jasmine rice cup",
+          "amount": "1 × 125 g",
+          "kcal": 210,
+          "protein_g": 8,
+          "carbs_g": 38,
+          "fat_g": 2
+        },
+        {
+          "item": "Tuna in springwater",
+          "amount": "3 × 80 g tins",
+          "kcal": 210,
+          "protein_g": 48,
+          "carbs_g": 0,
+          "fat_g": 2.4
+        },
+        {
+          "item": "Birds Eye Steamfresh baby potatoes & veg",
+          "amount": "1 steam bag (200 g)",
+          "kcal": 137,
+          "protein_g": 4,
+          "carbs_g": 17,
+          "fat_g": 4.3
+        },
+        {
+          "item": "Shredded tasty cheese",
+          "amount": "~30 g",
+          "kcal": 120,
+          "protein_g": 7.5,
+          "carbs_g": 0,
+          "fat_g": 10,
+          "optional": true
+        },
+        {
+          "item": "Extra rice cups",
+          "amount": "1–2 × 125 g",
+          "kcal": 210,
+          "protein_g": 8,
+          "carbs_g": 38,
+          "fat_g": 2,
+          "optional": true
+        },
+        {
+          "item": "Kewpie mayo",
+          "amount": "1 tbsp",
+          "kcal": 100,
+          "protein_g": 0,
+          "carbs_g": 0,
+          "fat_g": 11,
+          "optional": true
+        },
+        {
+          "item": "Soy sauce, sweet chilli or sriracha",
+          "amount": "to taste",
+          "kcal": 40,
+          "protein_g": 0,
+          "carbs_g": 10,
+          "fat_g": 0,
+          "optional": true
+        }
+      ],
+      "method": [
+        "Microwave the veg bag first, as the packet says; it takes longest and stays hot while sealed.",
+        "Peel the rice cup lid back a little and microwave it for about 2 minutes.",
+        "Drain the tuna well by pressing the lid down on it, so the bowl isn't watery.",
+        "In a microwave-safe bowl: rice, then veg, then tuna, with the cheese on top.",
+        "Microwave 45–60 seconds to melt the cheese and warm the tuna, then season."
+      ],
+      "tips": [
+        "The home microwave is a Kmart Anko, probably 700–900 W. Packet times are often for 1,000–1,100 W: multiply by about 1.4 (3.5 min at 1,100 W ≈ 5 min), then add 30 seconds at a time until hot.",
+        "Tuna is already cooked: warm it briefly, as overheating dries it out and makes it smell.",
+        "To make it a bigger meal, add rice cups: carbs are usually what's left at the end of the day.",
+        "Tinned tuna water carries some salt; a small bump on the scale the next morning is water, not fat."
+      ],
+      "variations": [
+        {
+          "id": "first",
+          "name": "1 rice cup, 3 tins, veg, cheese",
+          "first_made": "2026-11-25",
+          "changes": "As written, with the cheese, no mayo or sauce.",
+          "kcal": 677,
+          "protein_g": 67.5,
+          "carbs_g": 55,
+          "fat_g": 18.7
+        }
+      ]
     }
   ]
 }
