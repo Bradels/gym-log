@@ -86,6 +86,9 @@ Use these when suggesting meals or snacks.
 | Birds Eye Steamfresh baby potatoes & veg, 200 g steam bag (2 per pack) | 137 | 4.2 g | 17.3 g | 4.5 g | 5 g | label (574 kJ) |
 | Shredded tasty cheese, ~30 g (⅓ cup) | 120 | 7.5 g | 0 | 10 g | 0 | estimate |
 | SunRice jasmine rice cup, 125 g | 200 | 3.5 g | 42 g | 1.5 g | 0 | estimate |
+| SunRice Coconut rice cup, 125 g (2 per pack) | 204 | 3.2 g | 36.3 g | 4.5 g | 3.2 g | label (854 kJ) |
+| Milo Energy Dairy Snack, 150 g pouch | 176 | 6.6 g | 25.7 g | 6.3 g | 19.4 g | label (736 kJ) |
+| Bega smooth peanut butter, 30 g (weigh it: a heaped tablespoon is ~25–30 g, not 15 g) | 190 | 8 g | 4 g | 15 g | 2 g | estimate |
 
 ## Logging conventions
 
