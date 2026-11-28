@@ -116,6 +116,16 @@
           "protein_g": 123,
           "carbs_g": 58,
           "fat_g": 14.3
+        },
+        {
+          "id": "400g-green-veg-coconut-rice",
+          "name": "400 g, green veg bag, coconut rice cup",
+          "first_made": "2026-11-28",
+          "changes": "~400 g chicken, a whole 450 g Steamfresh green veg bag (beans and broccoli), 1 SunRice Coconut rice cup (protein rice was out of stock); no cheese.",
+          "kcal": 779,
+          "protein_g": 104,
+          "carbs_g": 52,
+          "fat_g": 12.5
         }
       ]
     },
